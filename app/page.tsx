@@ -1,16 +1,10 @@
-// export default function Home() {
-//   return (
-//     <main>
-      
-//     </main>
-//   );
-// }
-
 import React from 'react'
 
 function Home() {
   return (
-    <div>page</div>
+    <div>
+      <h1>AUTHENTICATED!</h1>
+    </div>
   )
 }
 
