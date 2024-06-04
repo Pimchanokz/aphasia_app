@@ -28,12 +28,12 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang='en'>
         <body className="roboto.classname">
-        <SignedOut>
+        {/* <SignedOut>
           <SignInButton />
         </SignedOut>
         <SignedIn>
           <UserButton />
-        </SignedIn>
+        </SignedIn> */}
           {children}
         </body>
       </html>
