@@ -18,7 +18,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     const difficulty = paths[4];
 
     // สร้างคำสั่ง SQL สำหรับเลือกข้อมูล
-    const query = 'SELECT * FROM quiz WHERE level = ? AND difficulty = ?';
+    const query = 'SELECT * FROM quiz WHERE level =' + level +' AND difficulty = ' + difficulty;
     const values = [level, difficulty];
 
     // ประมวลผลคำสั่ง SQL และรับผลลัพธ์
