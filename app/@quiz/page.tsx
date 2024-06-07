@@ -2,6 +2,7 @@
 import PhraseWordSix from "@/components/quizThree/PhraseWordSix";
 import { useEffect, useState } from "react";
 import useQuiz from "../store";
+import PhraseWordTen from "@/components/quizThree/PhraseWordTen";
 
 export default function Quiz() {
     const [questions , setQuestions] = useState([])
@@ -29,11 +30,20 @@ export default function Quiz() {
           <h1 className="text-center mb-4 text-lg font-extrabold leading-none tracking-tight text-blueColor md:text-xl lg:text-2xl">
             Match the words that express situations with sounds <br/>have corresponding verbs that fit perfectly</h1>
         )}
+        {config.level === '3' && config.difficulty === '3' && (
+          <h1 className="text-center mb-4 text-lg font-extrabold leading-none tracking-tight text-blueColor md:text-xl lg:text-2xl">
+            Match the pictures to the words that accurately describe the activity.</h1>
+        )}
         <p className="text-base mb-4 leading-none tracking-tight text-black md:text-lg lg:text-xl">Score : 0</p>
         <section className="flex flex-col justify-center items-center">
           {config.level === '3' && config.difficulty <= '2' && (
             <div>
               <PhraseWordSix/>
+            </div>
+          )}
+          {config.level === '3' && config.difficulty === '3' && (
+            <div>
+              <PhraseWordTen/>
             </div>
           )}
           <button type="button" className="w-1/2 outline-none rounded-md my-5 px-6 py-2 border-b-4 border-darkerYellow text-lg text-white font-medium  bg-yellowColor hover:bg-darkerYellow">Next</button>

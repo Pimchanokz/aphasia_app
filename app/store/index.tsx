@@ -12,7 +12,7 @@ export type configType={
 
 const defaultConfig = {
     numberOfQuestion: 5,
-    score:0
+    score:0,
 }
 
 const useQuiz = create((set) => ({
