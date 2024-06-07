@@ -1,20 +1,12 @@
 "use client"; //use Hook
 import React, { useEffect, useState } from 'react'
 import useQuiz from '@/app/store';
+import { Player } from "@lottiefiles/react-lottie-player";
 
 interface PhraseWordMatch{
   phrase: string,
   word: string
 }
-
-// const preMatchedData = [
-//   {phrase:"氷が", word:"溶ける"},
-//   {phrase:"切符を", word:"買う"},
-//   {phrase:"長さを", word:"計る"},
-//   {phrase:"飛行機に", word:"乗る"},
-//   {phrase:"星が", word:"光る"},
-//   {phrase:"お茶を", word:"飲む"},
-// ]
 
 export default function PhraseWordSix() {
   const config = useQuiz(state=>state.config)
@@ -42,28 +34,54 @@ export default function PhraseWordSix() {
   const [ShuffleData, setShuffleData] = useState<PhraseWordMatch[]>(shuffleArray(preMatchedData)); //สุ่ม
   const [pairedData, pairedMatchedData] = useState<PhraseWordMatch[]>([]); //เก็บตัวที่คู่กัน
   const [selected, selectedMatch] = useState<PhraseWordMatch | null>(null); //กดเลือก
+  const [startTime, setStartTime] = useState<number | null>(null);
+  const [endTime, setEndTime] = useState<number | null>(null);
+
 
   //สุ่ม
   useEffect(() => {
     setShuffleData(shuffleArray(preMatchedData));
   }, [preMatchedData]);
 
+  
   const handlePhraseClick = (match: PhraseWordMatch) => {
+    
     if(match === selected){
       const newPairedMatch = [...pairedData, match];
       pairedMatchedData(newPairedMatch);
+      config.score = config.score +10
+      setWrongSelection(null); // เคลียร์ wrongSelection
     }
-    // console.log(pairedData); []
+    else{
+      config.score = config.score -2
+      selectedMatch(match); // ตั้งค่า selected เป็น match ที่ผู้ใช้เลือก
+      setWrongSelection(match); // ตั้งค่า wrongSelection เป็น match ที่ผู้ใช้เลือกผิด
+    }
+    console.log(pairedData); []
     selectedMatch(null); //เคลียร์ตัวหลังให้เป็น Null
   };
 
+  const [wrongSelection, setWrongSelection] = useState<PhraseWordMatch | null>(null);
   const isMatched = (match: PhraseWordMatch) => pairedData.some((pairedMatch) => pairedMatch === match );
   const win = pairedData.length === preMatchedData.length;
 
+  useEffect(() => {
+    setStartTime(Date.now());
+  }, []);
+
+  useEffect(() => {
+    if (win) {
+      setEndTime(Date.now());
+    }
+  }, [win]);
+
+  const duration = endTime && startTime ? (endTime - startTime) / 1000 : null;
+
   return (
-    <div className='flex justify-center'>
-    {win && <h2 className='absolute text-lime-500'>You win!</h2>}
-    <div className='flex justify-center gap-20 mt-5 mb-5'>
+    console.log(config.score),
+    <div className='flex justify-center mt-10'>
+      {/* {win && <h2 className='absolute text-lime-500'>{config.score}</h2>} */}
+      {!win && <div className='flex justify-center gap-20 mt-5 mb-5'>
       <div className="flex flex-col gap-5">
         {preMatchedData.map((match, index) => (
           <button 
@@ -85,6 +103,7 @@ export default function PhraseWordSix() {
           className={`rounded-md px-16 py-2 border-2 border-b-4 text-black font-medium 
           ${selected!== null ? "hover:bg-gray-200 hover:border-gray-400 hover:scale-105" : "cursor-not-allowed"} 
           ${isMatched(match) ? "bg-lime-300 border-lime-500" : "bg-white-100 border-gray-200 "}
+          ${wrongSelection === match ? "bg-red-400 border-red-600" : ""}
           `} 
             key={index}
             disabled={selected === null}
@@ -94,7 +113,30 @@ export default function PhraseWordSix() {
           </button>
           ))}
       </div>
-    </div>
+    </div>}
+    {win && <div className='flex flex-col justify-center items-center'>
+        <Player
+          src='https://lottie.host/6918c703-3efd-4bfb-bdf3-e502d93173c6/0ibGlda0q7.json'
+          className="player"
+          loop
+          autoplay
+          style={{height: '350px', width: '350px'}}
+        />
+         <h1 className="mt-0 text-center font-extrabold text-transparent text-6xl bg-clip-text bg-gradient-to-r from-purple-400 to-pink-600">
+            YOUR SCORE :{" "}
+            <span className="font-extrabold text-transparent text-8xl bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600">
+              {config.score}
+            </span>
+          </h1>
+          <h1 className="mt-0 text-center font-bold text-3xl text-blueColor">
+            Time Taken: {`${duration} seconds`}</h1>
+        <button 
+            onClick={()=> window.location.reload()}
+            type="button" className="w-1/2 outline-none rounded-md my-5 px-6 py-2 border-b-4 border-darkerYellow text-lg text-white font-medium  bg-yellowColor hover:bg-darkerYellow">
+              Take Another Quiz
+              </button>
+      </div>     
+      }
     </div>
   )
 }

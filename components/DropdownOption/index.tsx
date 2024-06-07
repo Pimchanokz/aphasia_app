@@ -15,8 +15,8 @@ import {
 import { useEffect } from 'react'
 import useQuiz from '@/app/store'
 
-const Difficulty = ['1', '2', '3']
-const Level = ['1', '2', '3']
+const Difficulty = ['Easy', 'Normal', 'Hard']
+const Level = ['Level1', 'Level2', 'Level3']
 
 
 export default function DropdownOption() {
