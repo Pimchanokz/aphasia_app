@@ -8,30 +8,34 @@ interface PhraseWordMatch{
   word: string
 }
 
-export default function PhraseWordSix() {
+type PhraseWordSixProps = {
+  questions: PhraseWordMatch[];
+};
+export default function PhraseWordSix({ questions }: PhraseWordSixProps) {
   const config = useQuiz(state=>state.config)
 
-  const [preMatchedData, setPreMatchedData] = useState<PhraseWordMatch[]>([]);
+  // const [preMatchedData, setPreMatchedData] = useState<PhraseWordMatch[]>([]);
 
-  useEffect(() => { //รับค่าจาก url
-    const fetchData = async () => {
-      const url = `http://localhost:3000/api/selectLV/${config.level}/${config.difficulty}`;
-      const response = await fetch(url);
-      const responseData = await response.json();
-      const data = responseData.slice(0, 6);
-      setPreMatchedData(data);
-    };
+  // useEffect(() => { //รับค่าจาก url
+  //   const fetchData = async () => {
+  //     const url = `http://localhost:3000/api/selectLV/${config.level}/${config.difficulty}`;
+  //     const response = await fetch(url);
+  //     const responseData = await response.json();
+  //     const startIndex = (questionNumber - 1) * 6;
+  //     const data = responseData.slice(startIndex, startIndex + 6);
+  //     setPreMatchedData(data);
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
-  console.log(preMatchedData)
+  // console.log(preMatchedData)
   //shuffle
   const shuffleArray = (matchingData: PhraseWordMatch[]) => {
     return matchingData.slice().sort(() => Math.random() -0.5) //สร้าง Array ใหม่ที่สุ่มแล้ว
   };
 
-  const [ShuffleData, setShuffleData] = useState<PhraseWordMatch[]>(shuffleArray(preMatchedData)); //สุ่ม
+  const [ShuffleData, setShuffleData] = useState<PhraseWordMatch[]>(shuffleArray(questions)); //สุ่ม
   const [pairedData, pairedMatchedData] = useState<PhraseWordMatch[]>([]); //เก็บตัวที่คู่กัน
   const [selected, selectedMatch] = useState<PhraseWordMatch | null>(null); //กดเลือก
   const [startTime, setStartTime] = useState<number | null>(null);
@@ -40,8 +44,8 @@ export default function PhraseWordSix() {
 
   //สุ่ม
   useEffect(() => {
-    setShuffleData(shuffleArray(preMatchedData));
-  }, [preMatchedData]);
+    setShuffleData(shuffleArray(questions));
+  }, [questions]);
 
   
   const handlePhraseClick = (match: PhraseWordMatch) => {
@@ -63,7 +67,7 @@ export default function PhraseWordSix() {
 
   const [wrongSelection, setWrongSelection] = useState<PhraseWordMatch | null>(null);
   const isMatched = (match: PhraseWordMatch) => pairedData.some((pairedMatch) => pairedMatch === match );
-  const win = pairedData.length === preMatchedData.length;
+  const win = questions.length !== 0 && pairedData.length === questions.length;
 
   useEffect(() => {
     setStartTime(Date.now());
@@ -83,7 +87,7 @@ export default function PhraseWordSix() {
       {/* {win && <h2 className='absolute text-lime-500'>{config.score}</h2>} */}
       {!win && <div className='flex justify-center gap-20 mt-5 mb-5'>
       <div className="flex flex-col gap-5">
-        {preMatchedData.map((match, index) => (
+        {questions.map((match, index) => (
           <button 
             className={`rounded-md w-full px-12 py-2 border-2 border-b-4 text-black font-medium 
             hover:bg-gray-200 hover:border-gray-400 hover:scale-105

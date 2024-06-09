@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import useQuiz from '@/app/store';
 import { Player } from "@lottiefiles/react-lottie-player";
+import Image from 'next/image';
 
 interface PhraseWordMatch{
   phrase: string,
@@ -120,6 +121,9 @@ export default function PhraseWordTen() {
           ))}
       </div>
     </div>}
+    <button onClick={() => } className='w-8 h-8'>
+    <Image src={something.image} fill />
+    </button>
     </div>
   )
 }

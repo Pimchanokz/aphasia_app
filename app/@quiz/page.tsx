@@ -12,14 +12,16 @@ export default function Quiz() {
     const setScore = useQuiz(state=>state.setScore)
     const {win} = PhraseWordSix();
 
+    const [quizNumber, setQuizNumber] = useState(1);
+
     useEffect(() => {
       async function getQuestions() {
         const response = await fetch(`http://localhost:3000/api/selectLV/${config.level}/${config.difficulty}`);
         const data = await response.json();
-        console.log(data.results);
+        setQuestions(data.results);
       }
       getQuestions()
-    });
+    }, []);
 
     // const handleNext = () => {
     //   let remainingQuestions = [...questions];
@@ -27,6 +29,10 @@ export default function Quiz() {
     //   setQuestions([...remainingQuestions]);
     //   setAnswer("");
     // };
+
+    const startIndex = (quizNumber - 1) * 6;
+    const questionsSix = questions.slice(startIndex, startIndex + 6);
+    const questionsTen = questions.slice(startIndex, startIndex + 10);
     
     return (
       <section className='flex flex-col justify-center items-center'>
@@ -54,12 +60,12 @@ export default function Quiz() {
         <section className="flex flex-col justify-center items-center">
           {config.level === 'Level3' && (config.difficulty === 'Easy' || config.difficulty === 'Normal')&& (
             <div>
-              <PhraseWordSix/>
+              <PhraseWordSix questions={questionsSix} />
             </div>
           )}
           {config.level === 'Level3' && config.difficulty === 'Hard' && (
             <div>
-              <PhraseWordTen/>
+              <PhraseWordTen questions={questionsTen} />
             </div>
           )}
             {/* <button 
