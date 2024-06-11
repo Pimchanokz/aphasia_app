@@ -3,6 +3,7 @@ import DropdownOption from '@/components/DropdownOption'
 import React from 'react'
 import Button from '@/components/Button'
 import useQuiz from './store'
+import Image from 'next/image'
 
 
 function Home() {
@@ -16,6 +17,14 @@ function Home() {
           <p> Please select your level</p>
           <DropdownOption/>
           <Button/>
+          {/* <button>
+          <Image
+              src="/images/1.png"
+              width={500}
+              height={500}
+              alt="Picture of the author"
+            />
+          </button> */}
         </div>
       </section>
     </section>

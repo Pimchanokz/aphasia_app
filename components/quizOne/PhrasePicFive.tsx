@@ -1,14 +1,15 @@
 "use client"; //use Hook
 import React, { useEffect, useState } from 'react'
+import Image from 'next/image';
 import useQuiz from '@/app/store';
 import { Player } from "@lottiefiles/react-lottie-player";
 
 interface PhraseWordMatch{
-  phrase: string,
+  pic: string,
   word: string
 }
 
-export default function PhraseWordSix() {
+export default function PhrasePicFive() {
   const config = useQuiz(state=>state.config)
 
   const [preMatchedData, setPreMatchedData] = useState<PhraseWordMatch[]>([]);
@@ -18,7 +19,7 @@ export default function PhraseWordSix() {
       const url = `http://localhost:3000/api/selectLV/${config.level}/${config.difficulty}`;
       const response = await fetch(url);
       const responseData = await response.json();
-      const data = responseData.slice(0, 6);
+      const data = responseData.slice(0, 5);
       setPreMatchedData(data);
     };
 
@@ -81,8 +82,8 @@ export default function PhraseWordSix() {
     console.log(config.score),
     <div className='flex justify-center mt-10'>
       {/* {win && <h2 className='absolute text-lime-500'>{config.score}</h2>} */}
-      {!win && <div className='flex justify-center gap-20 mt-5 mb-5'>
-      <div className="flex flex-col gap-5">
+      {!win && <div className='grid grid-rows-2 gap-10 m-5'>
+      <div className="flex flex-row gap-5">
         {preMatchedData.map((match, index) => (
           <button 
             className={`rounded-md w-full px-12 py-2 border-2 border-b-4 text-black font-medium 
@@ -93,14 +94,19 @@ export default function PhraseWordSix() {
             key={index}
             onClick={() => selectedMatch(match)} //เลือกโดยการคลิก
             >
-              {match.phrase}
+            <Image
+            src={match.pic}
+            width={200}
+            height={200}
+            alt="Picture of the author"
+            />
           </button>
           ))}
       </div>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-row justify-between gap-5">
         {ShuffleData.map((match, index) => (
           <button 
-          className={`rounded-md px-16 py-2 border-2 border-b-4 text-black font-medium 
+          className={`w-full h-1/4 rounded-md px-16 py-2 border-2 border-b-4 text-black font-medium 
           ${selected!== null ? "hover:bg-gray-200 hover:border-gray-400 hover:scale-105" : "cursor-not-allowed"} 
           ${isMatched(match) ? "bg-lime-300 border-lime-500" : "bg-white-100 border-gray-200 "}
           ${wrongSelection === match ? "bg-red-400 border-red-600" : ""}
