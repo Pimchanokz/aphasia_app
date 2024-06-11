@@ -3,18 +3,11 @@ import PhraseWordSix from "@/components/quizThree/PhraseWordSix";
 import { useEffect, useState } from "react";
 import useQuiz from "../store";
 import PhraseWordTen from "@/components/quizThree/PhraseWordTen";
-import PhrasePicThree from "@/components/quizOne/PhrasePicThree";
 import PhrasePicFive from "@/components/quizOne/PhrasePicFive";
 import SelectWord from "@/components/quizTwo/SelectWord";
-import SelectTwo from "@/components/quizTwo/SelectTwo";
 
 export default function Quiz() {
-    const [questions , setQuestions] = useState([])
-    const [answer, setAnswer] = useState('')
-    const [loading, setLoading] = useState(false)
     const config = useQuiz(state=>state.config)
-    const setScore = useQuiz(state=>state.setScore)
-    // const {win} = PhraseWordSix();
 
     useEffect(() => {
       async function getQuestions() {
@@ -24,25 +17,9 @@ export default function Quiz() {
       }
       getQuestions()
     });
-
-    // const handleNext = () => {
-    //   let remainingQuestions = [...questions];
-    //   remainingQuestions.shift();
-    //   setQuestions([...remainingQuestions]);
-    //   setAnswer("");
-    // };
     
     return (
       <section className='flex flex-col justify-center items-center'>
-        {questions?.length ? (
-        <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-          Question No{" "}
-          <span className="text-blue-600 dark:text-blue-500">
-            #{config.numberOfQuestion - questions.length + 1}
-          </span>
-          .
-        </h1>
-        ) : null}
         {config.level === 'Level3' && (config.difficulty === 'Easy' || config.difficulty === 'Normal')&& (
           <h1 className="mt-10 text-center mb-4 text-xl font-extrabold leading-none tracking-tight text-blueColor md:text-2xl lg:text-3xl">
             Match a word that matches the pharse on the  left.</h1>
@@ -67,7 +44,10 @@ export default function Quiz() {
             </div>
           )} */}
           {config.level === 'Level1' && config.difficulty === 'Easy'&& (
-            <div>
+            <div className="grid grid-cols-2 justify-evenly items-center m-10">
+              <SelectWord/>
+              <SelectWord/>
+              <SelectWord/>
               <SelectWord/>
             </div>
           )}
@@ -86,11 +66,6 @@ export default function Quiz() {
               <PhraseWordTen/>
             </div>
           )}
-            {/* <button 
-            onClick={()=> handleNext()}
-            type="button" className="w-1/2 outline-none rounded-md my-5 px-6 py-2 border-b-4 border-darkerYellow text-lg text-white font-medium  bg-yellowColor hover:bg-darkerYellow">
-              Next
-              </button> */}
         </section>
       </section>
     );

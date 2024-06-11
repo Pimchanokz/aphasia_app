@@ -104,7 +104,7 @@ useEffect(() => {
 
   return (
         console.log(config.score),
-        <div className='flex justify-center items-center flex-wrap mt-10'>
+        <div className='flex justify-center items-center flex-wrap gap-10 mx-10 mt-2 mb-4'>
             {/* {!win && <div className='flex justify-center items-center mb-5'> */}
             <div className="flex flex-col gap-5">
                 {preMatchedData.map((match, index) => (
@@ -119,7 +119,7 @@ useEffect(() => {
                 ))
                 }
             </div>
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid gap-5">
                 <div className="flex flex-col gap-5">
                     {ShuffleData.map((match, index) => (
                         <button

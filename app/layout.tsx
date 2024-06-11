@@ -50,18 +50,10 @@ export default function RootLayout({
   let render = config.status? quiz : children;
 
   return (
-    // <ClerkProvider>
       <html lang='en'>
         <body className={roboto.className}>
-        {/* <SignedOut>
-          <SignInButton />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn> */}
           {render}
         </body>
       </html>
-    // {/* </ClerkProvider> */}
   );
 }
